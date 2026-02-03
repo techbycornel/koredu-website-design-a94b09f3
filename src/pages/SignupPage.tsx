@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Check, GraduationCap, Shield, Clock, Sparkles } from "lucide-react";
+import classroomHero from "@/assets/classroom-hero.jpg";
 
 const passwordRequirements = [
   { id: "length", label: "At least 8 characters", check: (p: string) => p.length >= 8 },
@@ -205,12 +206,15 @@ export function SignupPage() {
       </div>
 
       {/* Right Side - Image & Benefits */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-accent via-primary to-primary/90 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-40 right-20 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-40 left-20 w-96 h-96 bg-white rounded-full blur-3xl" />
-        </div>
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        {/* Background Image */}
+        <img
+          src={classroomHero}
+          alt="Children in classroom with student raising hand"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/80 via-primary/75 to-primary/85" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-between p-12 text-primary-foreground">
