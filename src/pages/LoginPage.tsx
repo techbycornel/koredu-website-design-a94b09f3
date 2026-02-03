@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, GraduationCap, Users, BookOpen, TrendingUp } from "lucide-react";
+import classroomHero from "@/assets/classroom-hero.jpg";
 
 const features = [
   { icon: Users, text: "Manage students & teachers effortlessly" },
@@ -27,12 +28,15 @@ export function LoginPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Image & Branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-primary via-primary/90 to-accent overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
-        </div>
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        {/* Background Image */}
+        <img
+          src={classroomHero}
+          alt="Children in classroom with student raising hand"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/85 via-primary/75 to-accent/80" />
         
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-between p-12 text-primary-foreground">
