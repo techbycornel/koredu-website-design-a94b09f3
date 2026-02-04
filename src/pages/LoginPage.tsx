@@ -30,8 +30,18 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Image & Branding */}
+    <div className="min-h-screen flex relative">
+      {/* Mobile/Tablet Background Image */}
+      <div className="lg:hidden absolute inset-0">
+        <img
+          src={classroomHero}
+          alt="Children in classroom with student raising hand"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/85 to-accent/90" />
+      </div>
+
+      {/* Left Side - Image & Branding (Desktop only) */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         {/* Background Image */}
         <img
@@ -91,12 +101,12 @@ export function LoginPage() {
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-background">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md bg-background/95 backdrop-blur-sm lg:bg-transparent lg:backdrop-blur-none rounded-2xl p-6 sm:p-8 lg:p-0 shadow-2xl lg:shadow-none"
         >
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
