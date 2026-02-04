@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, GraduationCap, Users, BookOpen, TrendingUp } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Eye, EyeOff, GraduationCap, Users, BookOpen, TrendingUp, Building2, UserCog } from "lucide-react";
 import classroomHero from "@/assets/classroom-hero.jpg";
 
 const features = [
@@ -14,15 +15,18 @@ const features = [
   { icon: TrendingUp, text: "Data-driven insights for better outcomes" },
 ];
 
+type UserType = "school_owner" | "internal_staff";
+
 export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState<UserType>("school_owner");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement actual login logic
-    console.log("Login attempt:", { email, password });
+    console.log("Login attempt:", { email, password, userType });
   };
 
   return (
@@ -116,13 +120,62 @@ export function LoginPage() {
 
           {/* Login Form */}
           <div className="space-y-6">
+            {/* User Type Selector */}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">I am a</Label>
+              <RadioGroup
+                value={userType}
+                onValueChange={(value) => setUserType(value as UserType)}
+                className="grid grid-cols-2 gap-3"
+              >
+                <Label
+                  htmlFor="school_owner"
+                  className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                    userType === "school_owner"
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50"
+                  }`}
+                >
+                  <RadioGroupItem value="school_owner" id="school_owner" className="sr-only" />
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                    userType === "school_owner" ? "bg-primary text-primary-foreground" : "bg-muted"
+                  }`}>
+                    <Building2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">School Owner</p>
+                    <p className="text-xs text-muted-foreground">Manage your school</p>
+                  </div>
+                </Label>
+                <Label
+                  htmlFor="internal_staff"
+                  className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                    userType === "internal_staff"
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50"
+                  }`}
+                >
+                  <RadioGroupItem value="internal_staff" id="internal_staff" className="sr-only" />
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                    userType === "internal_staff" ? "bg-primary text-primary-foreground" : "bg-muted"
+                  }`}>
+                    <UserCog className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">Internal Staff</p>
+                    <p className="text-xs text-muted-foreground">Koredu employee</p>
+                  </div>
+                </Label>
+              </RadioGroup>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="email">Email address</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="you@school.edu"
+                  placeholder={userType === "school_owner" ? "you@school.edu" : "you@koredu.com"}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
