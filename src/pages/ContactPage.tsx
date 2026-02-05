@@ -8,7 +8,9 @@ import {
   MapPin,
   MessageSquare,
   Clock,
-  HelpCircle
+  HelpCircle,
+  Send,
+  Sparkles
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -76,27 +78,72 @@ export function ContactPage() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="section-gradient glow-teal py-20 lg:py-28">
+      <section className="py-12 lg:py-16">
         <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h1 className="text-4xl lg:text-5xl font-bold font-display text-foreground mb-6">
-              Get in <span className="text-gradient">Touch</span>
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              Have questions? We'd love to hear from you. Send us a message and 
-              we'll respond as soon as possible.
-            </p>
-          </motion.div>
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            {/* Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex-1 text-center lg:text-left"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                <Sparkles className="w-4 h-4" />
+                We're here to help
+              </div>
+              <h1 className="text-3xl lg:text-4xl font-bold font-display text-foreground mb-3">
+                Get in <span className="text-gradient">Touch</span>
+              </h1>
+              <p className="text-muted-foreground max-w-md mx-auto lg:mx-0">
+                Have questions? We'd love to hear from you. Send us a message and 
+                we'll respond as soon as possible.
+              </p>
+            </motion.div>
+
+            {/* Illustration */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative"
+            >
+              <div className="w-40 h-40 lg:w-48 lg:h-48 rounded-full bg-gradient-to-br from-primary/20 via-primary/10 to-accent/20 flex items-center justify-center relative">
+                {/* Floating elements */}
+                <motion.div
+                  animate={{ y: [-5, 5, -5] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-2 -right-2 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center"
+                >
+                  <Mail className="w-5 h-5 text-primary" />
+                </motion.div>
+                <motion.div
+                  animate={{ y: [5, -5, 5] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  className="absolute -bottom-2 -left-2 w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center"
+                >
+                  <Phone className="w-4 h-4 text-accent" />
+                </motion.div>
+                <motion.div
+                  animate={{ y: [-3, 3, -3] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute top-1/2 -right-6 w-8 h-8 rounded-lg bg-secondary/10 border border-secondary/20 flex items-center justify-center"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-secondary" />
+                </motion.div>
+                
+                {/* Center icon */}
+                <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-koredu-teal">
+                  <Send className="w-10 h-10 lg:w-12 lg:h-12 text-primary-foreground" />
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Contact Methods */}
-      <section className="py-16 -mt-12">
+      <section className="py-10">
         <div className="container-custom">
           <div className="grid md:grid-cols-3 gap-6">
             {contactMethods.map((method, index) => (
