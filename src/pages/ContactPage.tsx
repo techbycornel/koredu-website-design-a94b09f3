@@ -78,65 +78,127 @@ export function ContactPage() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="py-12 lg:py-16">
-        <div className="container-custom">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+      <section className="py-16 lg:py-24 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        </div>
+        
+        <div className="container-custom relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             {/* Text Content */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.6 }}
               className="flex-1 text-center lg:text-left"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
+              >
                 <Sparkles className="w-4 h-4" />
                 We're here to help
-              </div>
-              <h1 className="text-3xl lg:text-4xl font-bold font-display text-foreground mb-3">
+              </motion.div>
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold font-display text-foreground mb-5">
                 Get in <span className="text-gradient">Touch</span>
               </h1>
-              <p className="text-muted-foreground max-w-md mx-auto lg:mx-0">
+              <p className="text-lg lg:text-xl text-muted-foreground max-w-lg mx-auto lg:mx-0">
                 Have questions? We'd love to hear from you. Send us a message and 
                 we'll respond as soon as possible.
               </p>
             </motion.div>
 
-            {/* Illustration */}
+            {/* Rich Illustration */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative w-72 h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96"
             >
-              <div className="w-40 h-40 lg:w-48 lg:h-48 rounded-full bg-gradient-to-br from-primary/20 via-primary/10 to-accent/20 flex items-center justify-center relative">
-                {/* Floating elements */}
-                <motion.div
-                  animate={{ y: [-5, 5, -5] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-2 -right-2 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center"
-                >
-                  <Mail className="w-5 h-5 text-primary" />
-                </motion.div>
-                <motion.div
-                  animate={{ y: [5, -5, 5] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute -bottom-2 -left-2 w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center"
-                >
-                  <Phone className="w-4 h-4 text-accent" />
-                </motion.div>
-                <motion.div
-                  animate={{ y: [-3, 3, -3] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute top-1/2 -right-6 w-8 h-8 rounded-lg bg-secondary/10 border border-secondary/20 flex items-center justify-center"
-                >
-                  <MessageSquare className="w-3.5 h-3.5 text-secondary" />
-                </motion.div>
-                
-                {/* Center icon */}
-                <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-koredu-teal">
-                  <Send className="w-10 h-10 lg:w-12 lg:h-12 text-primary-foreground" />
+              {/* Outer glow ring */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 rounded-full border-2 border-dashed border-primary/20"
+              />
+              
+              {/* Middle decorative ring */}
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-6 lg:inset-8 rounded-full border border-accent/15"
+              />
+              
+              {/* Inner gradient circle */}
+              <div className="absolute inset-12 lg:inset-16 rounded-full bg-gradient-to-br from-primary/15 via-primary/5 to-accent/15" />
+              
+              {/* Floating Mail icon - top right */}
+              <motion.div
+                animate={{ y: [-8, 8, -8], x: [2, -2, 2] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-4 right-8 lg:top-6 lg:right-12 w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-card border border-border shadow-lg flex items-center justify-center"
+              >
+                <Mail className="w-6 h-6 lg:w-7 lg:h-7 text-primary" />
+              </motion.div>
+              
+              {/* Floating Phone icon - bottom left */}
+              <motion.div
+                animate={{ y: [6, -6, 6], x: [-3, 3, -3] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute bottom-6 left-4 lg:bottom-8 lg:left-6 w-12 h-12 lg:w-14 lg:h-14 rounded-xl bg-card border border-border shadow-lg flex items-center justify-center"
+              >
+                <Phone className="w-5 h-5 lg:w-6 lg:h-6 text-accent" />
+              </motion.div>
+              
+              {/* Floating MessageSquare icon - right side */}
+              <motion.div
+                animate={{ y: [-5, 5, -5] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute top-1/2 -translate-y-1/2 -right-2 lg:right-0 w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-card border border-border shadow-lg flex items-center justify-center"
+              >
+                <MessageSquare className="w-4 h-4 lg:w-5 lg:h-5 text-secondary" />
+              </motion.div>
+              
+              {/* Floating MapPin icon - left side */}
+              <motion.div
+                animate={{ y: [4, -4, 4], rotate: [-5, 5, -5] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+                className="absolute top-1/3 -left-2 lg:left-0 w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-card border border-border shadow-lg flex items-center justify-center"
+              >
+                <MapPin className="w-4 h-4 lg:w-5 lg:h-5 text-primary" />
+              </motion.div>
+              
+              {/* Small decorative dots */}
+              <motion.div
+                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-16 left-16 w-3 h-3 rounded-full bg-primary/40"
+              />
+              <motion.div
+                animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute bottom-20 right-20 w-2 h-2 rounded-full bg-accent/50"
+              />
+              <motion.div
+                animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.7, 0.3] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute top-1/2 left-8 w-2 h-2 rounded-full bg-secondary/40"
+              />
+              
+              {/* Center main icon */}
+              <motion.div 
+                animate={{ scale: [1, 1.02, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <div className="w-24 h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 rounded-3xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-koredu-teal-lg">
+                  <Send className="w-12 h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 text-primary-foreground" />
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
