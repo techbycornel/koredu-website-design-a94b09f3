@@ -1,0 +1,251 @@
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FileText, ArrowLeft } from "lucide-react";
+
+const sections = [
+  { id: "acceptance", title: "1. Acceptance of Terms" },
+  { id: "definitions", title: "2. Definitions" },
+  { id: "account", title: "3. Account Registration" },
+  { id: "use-of-services", title: "4. Use of Services" },
+  { id: "acceptable-use", title: "5. Acceptable Use" },
+  { id: "intellectual-property", title: "6. Intellectual Property" },
+  { id: "data-ownership", title: "7. Data Ownership" },
+  { id: "payment", title: "8. Payment & Billing" },
+  { id: "termination", title: "9. Termination" },
+  { id: "limitation", title: "10. Limitation of Liability" },
+  { id: "indemnification", title: "11. Indemnification" },
+  { id: "governing-law", title: "12. Governing Law" },
+  { id: "changes", title: "13. Changes to Terms" },
+  { id: "contact", title: "14. Contact Us" },
+];
+
+export function TermsOfServicePage() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <section className="bg-muted border-b border-border">
+        <div className="container-custom py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-6"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </Link>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <FileText className="w-6 h-6 text-primary" />
+              </div>
+              <h1 className="text-4xl font-bold font-display text-foreground">
+                Terms of Service
+              </h1>
+            </div>
+            <p className="text-muted-foreground max-w-2xl">
+              Please read these terms carefully before using Koredu. By accessing or using our platform, you agree to be bound by these terms.
+            </p>
+            <p className="text-sm text-muted-foreground mt-4">
+              Last updated: February 9, 2026
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Content */}
+      <div className="container-custom py-12">
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Table of Contents */}
+          <aside className="lg:w-64 shrink-0">
+            <nav className="lg:sticky lg:top-28">
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
+                Table of Contents
+              </h3>
+              <ul className="space-y-2">
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <a
+                      href={`#${section.id}`}
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      {section.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+
+          {/* Main Content */}
+          <motion.article
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex-1 max-w-3xl"
+          >
+            <section id="acceptance" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">1. Acceptance of Terms</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                By accessing or using the Koredu platform ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you are using the Service on behalf of an organisation, you represent that you have the authority to bind that organisation to these Terms.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                If you do not agree to these Terms, you must not access or use the Service.
+              </p>
+            </section>
+
+            <section id="definitions" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">2. Definitions</h2>
+              <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+                <li><strong>"Platform"</strong> refers to the Koredu web application and related services</li>
+                <li><strong>"User"</strong> refers to any individual who accesses or uses the Platform</li>
+                <li><strong>"School"</strong> refers to the educational institution that subscribes to our services</li>
+                <li><strong>"Content"</strong> refers to any data, text, or materials uploaded to or generated by the Platform</li>
+                <li><strong>"Subscription"</strong> refers to the paid plan selected by the School</li>
+              </ul>
+            </section>
+
+            <section id="account" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">3. Account Registration</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                To use certain features of the Service, you must register for an account. You agree to:
+              </p>
+              <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+                <li>Provide accurate, current, and complete registration information</li>
+                <li>Maintain and promptly update your account information</li>
+                <li>Keep your password secure and confidential</li>
+                <li>Accept responsibility for all activities that occur under your account</li>
+                <li>Notify us immediately of any unauthorised use of your account</li>
+              </ul>
+            </section>
+
+            <section id="use-of-services" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">4. Use of Services</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Koredu grants you a limited, non-exclusive, non-transferable licence to access and use the Platform in accordance with your Subscription plan. This licence is subject to your compliance with these Terms and payment of all applicable fees.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                We reserve the right to modify, suspend, or discontinue any part of the Service at any time with reasonable notice. We will not be liable for any modification, suspension, or discontinuation of the Service.
+              </p>
+            </section>
+
+            <section id="acceptable-use" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">5. Acceptable Use</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">You agree not to:</p>
+              <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+                <li>Use the Service for any unlawful purpose or in violation of any applicable laws</li>
+                <li>Attempt to gain unauthorised access to any part of the Service</li>
+                <li>Interfere with or disrupt the integrity or performance of the Service</li>
+                <li>Upload malicious code, viruses, or harmful data to the Platform</li>
+                <li>Reverse-engineer, decompile, or disassemble any part of the Service</li>
+                <li>Use the Service to store or transmit infringing or defamatory content</li>
+                <li>Resell, sublicence, or share access credentials with unauthorised parties</li>
+              </ul>
+            </section>
+
+            <section id="intellectual-property" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">6. Intellectual Property</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                The Service, including its design, features, code, documentation, and branding, is owned by Koredu and protected by intellectual property laws. You may not copy, modify, distribute, or create derivative works based on the Service without our prior written consent.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                All trademarks, logos, and service marks displayed on the Platform are the property of Koredu or their respective owners.
+              </p>
+            </section>
+
+            <section id="data-ownership" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">7. Data Ownership</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                You retain ownership of all data you upload to the Platform ("Your Data"). By using the Service, you grant Koredu a limited licence to process Your Data solely for the purpose of providing the Service.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Upon termination of your account, you may request an export of Your Data within 30 days. After this period, we may delete Your Data in accordance with our data retention policies. See our <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link> for full details.
+              </p>
+            </section>
+
+            <section id="payment" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">8. Payment & Billing</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Paid Subscriptions are billed in advance on a monthly or annual basis. All fees are non-refundable except as expressly stated in these Terms or required by applicable law.
+              </p>
+              <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+                <li>Prices are subject to change with 30 days' notice</li>
+                <li>Failed payments may result in suspension of your account</li>
+                <li>You are responsible for all taxes associated with your Subscription</li>
+                <li>Downgrades take effect at the end of the current billing period</li>
+              </ul>
+            </section>
+
+            <section id="termination" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">9. Termination</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Either party may terminate the agreement at any time. You may cancel your Subscription through your account settings or by contacting support.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                We may suspend or terminate your access immediately if you breach these Terms, fail to pay applicable fees, or engage in conduct that we determine is harmful to other users or the Service.
+              </p>
+            </section>
+
+            <section id="limitation" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">10. Limitation of Liability</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                To the maximum extent permitted by law, Koredu shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or business opportunities, arising out of or related to your use of the Service.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Our total liability shall not exceed the amount you paid for the Service in the twelve (12) months preceding the claim.
+              </p>
+            </section>
+
+            <section id="indemnification" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">11. Indemnification</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                You agree to indemnify and hold Koredu harmless from any claims, damages, losses, or expenses (including reasonable legal fees) arising from your use of the Service, violation of these Terms, or infringement of any third-party rights.
+              </p>
+            </section>
+
+            <section id="governing-law" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">12. Governing Law</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                These Terms shall be governed by and construed in accordance with the laws of the Federal Republic of Nigeria. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of Lagos, Nigeria.
+              </p>
+            </section>
+
+            <section id="changes" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">13. Changes to Terms</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                We reserve the right to update these Terms at any time. Material changes will be communicated via email or a prominent notice on the Platform at least 30 days before they take effect. Your continued use of the Service after changes are posted constitutes acceptance of the revised Terms.
+              </p>
+            </section>
+
+            <section id="contact" className="mb-12">
+              <h2 className="text-2xl font-bold font-display text-foreground mb-4">14. Contact Us</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                If you have any questions about these Terms of Service, please contact us:
+              </p>
+              <div className="bg-muted rounded-xl p-6 text-muted-foreground space-y-2">
+                <p><strong className="text-foreground">Koredu</strong></p>
+                <p>Email: <a href="mailto:legal@koredu.com" className="text-primary hover:underline">legal@koredu.com</a></p>
+                <p>Phone: +234 123 456 7890</p>
+                <p>Address: Lagos, Nigeria</p>
+              </div>
+            </section>
+
+            {/* Related Links */}
+            <div className="border-t border-border pt-8 mt-12">
+              <p className="text-sm text-muted-foreground">
+                See also:{" "}
+                <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
+                {" · "}
+                <Link to="/security" className="text-primary hover:underline">Security</Link>
+                {" · "}
+                <Link to="/contact" className="text-primary hover:underline">Contact Us</Link>
+              </p>
+            </div>
+          </motion.article>
+        </div>
+      </div>
+    </div>
+  );
+}
