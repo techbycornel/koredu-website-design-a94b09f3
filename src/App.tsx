@@ -19,6 +19,11 @@ import { ErrorPage } from "@/pages/ErrorPage";
 import { PrivacyPolicyPage } from "@/pages/PrivacyPolicyPage";
 import { TermsOfServicePage } from "@/pages/TermsOfServicePage";
 import NotFound from "./pages/NotFound";
+import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { DashboardOverview } from "@/pages/admin/DashboardOverview";
+import { SchoolManagement } from "@/pages/admin/SchoolManagement";
+import { UserManagement } from "@/pages/admin/UserManagement";
+import { FinancialOverview } from "@/pages/admin/FinancialOverview";
 
 const queryClient = new QueryClient();
 
@@ -28,26 +33,32 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/features" element={<FeaturesPage />} />
-            <Route path="/how-it-works" element={<HowItWorksPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/demo" element={<DemoPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/error" element={<ErrorPage />} />
-            <Route path="/privacy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms" element={<TermsOfServicePage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          {/* Public pages with public layout */}
+          <Route element={<Layout><HomePage /></Layout>} path="/" />
+          <Route element={<Layout><AboutPage /></Layout>} path="/about" />
+          <Route element={<Layout><FeaturesPage /></Layout>} path="/features" />
+          <Route element={<Layout><HowItWorksPage /></Layout>} path="/how-it-works" />
+          <Route element={<Layout><PricingPage /></Layout>} path="/pricing" />
+          <Route element={<Layout><DemoPage /></Layout>} path="/demo" />
+          <Route element={<Layout><ContactPage /></Layout>} path="/contact" />
+          <Route element={<Layout><LoginPage /></Layout>} path="/login" />
+          <Route element={<Layout><SignupPage /></Layout>} path="/signup" />
+          <Route element={<Layout><ForgotPasswordPage /></Layout>} path="/forgot-password" />
+          <Route element={<Layout><ResetPasswordPage /></Layout>} path="/reset-password" />
+          <Route element={<Layout><ErrorPage /></Layout>} path="/error" />
+          <Route element={<Layout><PrivacyPolicyPage /></Layout>} path="/privacy" />
+          <Route element={<Layout><TermsOfServicePage /></Layout>} path="/terms" />
+
+          {/* Super Admin Dashboard */}
+          <Route path="/admin" element={<DashboardLayout><DashboardOverview /></DashboardLayout>} />
+          <Route path="/admin/schools" element={<DashboardLayout><SchoolManagement /></DashboardLayout>} />
+          <Route path="/admin/users" element={<DashboardLayout><UserManagement /></DashboardLayout>} />
+          <Route path="/admin/financials" element={<DashboardLayout><FinancialOverview /></DashboardLayout>} />
+
+          {/* Catch-all */}
+          <Route path="*" element={<Layout><NotFound /></Layout>} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
