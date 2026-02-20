@@ -9,6 +9,7 @@ import {
   HelpCircle,
   LogOut,
   ChevronLeft,
+  ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,7 @@ const mainNav = [
   { title: "Schools", href: "/admin/schools", icon: School },
   { title: "Users", href: "/admin/users", icon: Users },
   { title: "Financials", href: "/admin/financials", icon: DollarSign },
+  { title: "Configuration", href: "/admin/configuration", icon: ShieldCheck },
 ];
 
 const bottomNav = [

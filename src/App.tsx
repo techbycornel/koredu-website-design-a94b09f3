@@ -24,6 +24,7 @@ import { DashboardOverview } from "@/pages/admin/DashboardOverview";
 import { SchoolManagement } from "@/pages/admin/SchoolManagement";
 import { UserManagement } from "@/pages/admin/UserManagement";
 import { FinancialOverview } from "@/pages/admin/FinancialOverview";
+import { ConfigurationPage } from "@/pages/admin/ConfigurationPage";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ const App = () => (
           <Route path="/admin/schools" element={<DashboardLayout><SchoolManagement /></DashboardLayout>} />
           <Route path="/admin/users" element={<DashboardLayout><UserManagement /></DashboardLayout>} />
           <Route path="/admin/financials" element={<DashboardLayout><FinancialOverview /></DashboardLayout>} />
+          <Route path="/admin/configuration" element={<DashboardLayout><ConfigurationPage /></DashboardLayout>} />
 
           {/* Catch-all */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
