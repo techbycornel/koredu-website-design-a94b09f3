@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -16,25 +15,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   Shield,
   Plus,
   Search,
-  Edit2,
   Trash2,
   Users,
   ShieldCheck,
@@ -42,70 +25,31 @@ import {
   GraduationCap,
   UserCheck,
   Baby,
+  LayoutDashboard,
+  School,
+  DollarSign,
+  BookOpen,
+  Settings,
+  FileText,
+  Bell,
+  BarChart3,
+  MessageSquare,
+  Calendar,
+  Folder,
+  Globe,
+  Lock,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useFeatures } from "@/contexts/FeaturesContext";
 
-// ─── Permission categories & items ────────────────────────────
-const permissionCategories = [
-  {
-    name: "Dashboard",
-    permissions: [
-      { key: "dashboard.view", label: "View dashboard" },
-      { key: "dashboard.analytics", label: "View analytics" },
-      { key: "dashboard.export", label: "Export reports" },
-    ],
-  },
-  {
-    name: "Schools",
-    permissions: [
-      { key: "schools.view", label: "View schools" },
-      { key: "schools.create", label: "Create schools" },
-      { key: "schools.edit", label: "Edit schools" },
-      { key: "schools.delete", label: "Delete schools" },
-      { key: "schools.suspend", label: "Suspend schools" },
-    ],
-  },
-  {
-    name: "Users",
-    permissions: [
-      { key: "users.view", label: "View users" },
-      { key: "users.create", label: "Create users" },
-      { key: "users.edit", label: "Edit users" },
-      { key: "users.delete", label: "Delete users" },
-      { key: "users.roles", label: "Manage roles" },
-    ],
-  },
-  {
-    name: "Financials",
-    permissions: [
-      { key: "financials.view", label: "View financials" },
-      { key: "financials.manage", label: "Manage billing" },
-      { key: "financials.refund", label: "Process refunds" },
-    ],
-  },
-  {
-    name: "Content",
-    permissions: [
-      { key: "content.view", label: "View content" },
-      { key: "content.create", label: "Create content" },
-      { key: "content.edit", label: "Edit content" },
-      { key: "content.delete", label: "Delete content" },
-      { key: "content.publish", label: "Publish content" },
-    ],
-  },
-  {
-    name: "Configuration",
-    permissions: [
-      { key: "config.view", label: "View configuration" },
-      { key: "config.roles", label: "Manage roles" },
-      { key: "config.system", label: "System settings" },
-    ],
-  },
-];
+// ─── Icon resolver ────────────────────────────────────────────
+const iconMap: Record<string, React.ElementType> = {
+  LayoutDashboard, School, Users, DollarSign, BookOpen, Settings, Shield,
+  FileText, Bell, BarChart3, MessageSquare, Calendar, Folder, Globe, Lock, Zap,
+};
 
-const allPermissionKeys = permissionCategories.flatMap((c) =>
-  c.permissions.map((p) => p.key)
-);
+const getIcon = (name: string) => iconMap[name] || Shield;
 
 // ─── Role icons ───────────────────────────────────────────────
 const roleIconMap: Record<string, React.ElementType> = {
@@ -137,92 +81,65 @@ interface Role {
 
 const initialRoles: Role[] = [
   {
-    id: "1",
-    name: "Super Admin",
-    slug: "super_admin",
+    id: "1", name: "Super Admin", slug: "super_admin",
     description: "Full system access with all permissions. Cannot be modified.",
-    usersCount: 2,
-    isSystem: true,
-    permissions: [...allPermissionKeys],
+    usersCount: 2, isSystem: true,
+    permissions: [], // Will be computed to include all
   },
   {
-    id: "2",
-    name: "School Admin",
-    slug: "school_admin",
+    id: "2", name: "School Admin", slug: "school_admin",
     description: "Manages a single school including users, content, and billing.",
-    usersCount: 45,
-    isSystem: true,
+    usersCount: 45, isSystem: true,
     permissions: [
-      "dashboard.view",
-      "dashboard.analytics",
-      "dashboard.export",
-      "schools.view",
-      "schools.edit",
-      "users.view",
-      "users.create",
-      "users.edit",
-      "users.roles",
-      "financials.view",
-      "financials.manage",
-      "content.view",
-      "content.create",
-      "content.edit",
-      "content.publish",
+      "dashboard.view", "dashboard.analytics", "dashboard.export",
+      "schools.view", "schools.edit",
+      "users.view", "users.create", "users.edit", "users.roles",
+      "financials.view", "financials.manage",
+      "content.view", "content.create", "content.edit", "content.publish",
     ],
   },
   {
-    id: "3",
-    name: "Teacher",
-    slug: "teacher",
+    id: "3", name: "Teacher", slug: "teacher",
     description: "Creates and manages learning content, views student progress.",
-    usersCount: 320,
-    isSystem: true,
+    usersCount: 320, isSystem: true,
     permissions: [
-      "dashboard.view",
-      "dashboard.analytics",
+      "dashboard.view", "dashboard.analytics",
       "users.view",
-      "content.view",
-      "content.create",
-      "content.edit",
-      "content.publish",
+      "content.view", "content.create", "content.edit", "content.publish",
     ],
   },
   {
-    id: "4",
-    name: "Parent",
-    slug: "parent",
+    id: "4", name: "Parent", slug: "parent",
     description: "Views child progress, manages payment, communicates with school.",
-    usersCount: 1250,
-    isSystem: true,
-    permissions: [
-      "dashboard.view",
-      "financials.view",
-      "content.view",
-    ],
+    usersCount: 1250, isSystem: true,
+    permissions: ["dashboard.view", "financials.view", "content.view"],
   },
   {
-    id: "5",
-    name: "Student",
-    slug: "student",
+    id: "5", name: "Student", slug: "student",
     description: "Accesses assigned content, takes assessments, views own progress.",
-    usersCount: 4800,
-    isSystem: true,
-    permissions: [
-      "dashboard.view",
-      "content.view",
-    ],
+    usersCount: 4800, isSystem: true,
+    permissions: ["dashboard.view", "content.view"],
   },
 ];
 
 // ─── Component ────────────────────────────────────────────────
 export function ConfigurationPage() {
+  const { features } = useFeatures();
+  const allPermissionKeys = useMemo(
+    () => features.flatMap((f) => f.permissions.map((p) => p.key)),
+    [features]
+  );
+
   const [roles, setRoles] = useState<Role[]>(initialRoles);
   const [selectedRole, setSelectedRole] = useState<Role>(roles[0]);
   const [searchQuery, setSearchQuery] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newRoleName, setNewRoleName] = useState("");
   const [newRoleDesc, setNewRoleDesc] = useState("");
-  const [editingRole, setEditingRole] = useState<Role | null>(null);
+
+  // For super_admin, show all permissions as enabled
+  const getEffectivePermissions = (role: Role) =>
+    role.slug === "super_admin" ? allPermissionKeys : role.permissions;
 
   const filteredRoles = useMemo(
     () =>
@@ -235,8 +152,7 @@ export function ConfigurationPage() {
   );
 
   const togglePermission = (permKey: string) => {
-    if (selectedRole.isSystem && selectedRole.slug === "super_admin") return;
-
+    if (selectedRole.slug === "super_admin") return;
     setRoles((prev) =>
       prev.map((r) => {
         if (r.id !== selectedRole.id) return r;
@@ -254,10 +170,13 @@ export function ConfigurationPage() {
     });
   };
 
-  const toggleCategory = (category: typeof permissionCategories[0]) => {
-    if (selectedRole.isSystem && selectedRole.slug === "super_admin") return;
-    const catKeys = category.permissions.map((p) => p.key);
-    const allEnabled = catKeys.every((k) => selectedRole.permissions.includes(k));
+  const toggleCategory = (featureId: string) => {
+    if (selectedRole.slug === "super_admin") return;
+    const feature = features.find((f) => f.id === featureId);
+    if (!feature) return;
+    const catKeys = feature.permissions.map((p) => p.key);
+    const effectivePerms = getEffectivePermissions(selectedRole);
+    const allEnabled = catKeys.every((k) => effectivePerms.includes(k));
 
     setRoles((prev) =>
       prev.map((r) => {
@@ -303,6 +222,7 @@ export function ConfigurationPage() {
   };
 
   const RoleIcon = roleIconMap[selectedRole.slug] || Shield;
+  const effectivePermissions = getEffectivePermissions(selectedRole);
 
   return (
     <div className="space-y-6">
@@ -365,14 +285,8 @@ export function ConfigurationPage() {
         <div className="lg:col-span-4 space-y-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Search roles…"
-              className="pl-9"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <Input placeholder="Search roles…" className="pl-9" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
           </div>
-
           <div className="space-y-2">
             {filteredRoles.map((role) => {
               const Icon = roleIconMap[role.slug] || Shield;
@@ -390,21 +304,12 @@ export function ConfigurationPage() {
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <div
-                        className={cn(
-                          "w-9 h-9 rounded-lg flex items-center justify-center shrink-0",
-                          roleColorMap[role.slug] || "bg-muted text-muted-foreground"
-                        )}
-                      >
+                      <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center shrink-0", roleColorMap[role.slug] || "bg-muted text-muted-foreground")}>
                         <Icon className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="font-semibold text-sm text-foreground">
-                          {role.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                          {role.description}
-                        </p>
+                        <p className="font-semibold text-sm text-foreground">{role.name}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{role.description}</p>
                       </div>
                     </div>
                     <Badge variant="secondary" className="text-xs shrink-0">
@@ -418,18 +323,13 @@ export function ConfigurationPage() {
           </div>
         </div>
 
-        {/* Right: Permission editor */}
+        {/* Right: Permission editor — now driven by features context */}
         <div className="lg:col-span-8">
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      "w-10 h-10 rounded-xl flex items-center justify-center",
-                      roleColorMap[selectedRole.slug] || "bg-muted text-muted-foreground"
-                    )}
-                  >
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", roleColorMap[selectedRole.slug] || "bg-muted text-muted-foreground")}>
                     <RoleIcon className="w-5 h-5" />
                   </div>
                   <div>
@@ -439,17 +339,10 @@ export function ConfigurationPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   {selectedRole.isSystem && (
-                    <Badge variant="outline" className="text-xs">
-                      System Role
-                    </Badge>
+                    <Badge variant="outline" className="text-xs">System Role</Badge>
                   )}
                   {!selectedRole.isSystem && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-destructive hover:text-destructive"
-                      onClick={() => handleDeleteRole(selectedRole.id)}
-                    >
+                    <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => handleDeleteRole(selectedRole.id)}>
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   )}
@@ -463,27 +356,23 @@ export function ConfigurationPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {permissionCategories.map((category) => {
-                  const catKeys = category.permissions.map((p) => p.key);
-                  const enabledCount = catKeys.filter((k) =>
-                    selectedRole.permissions.includes(k)
-                  ).length;
+                {features.map((feature) => {
+                  const catKeys = feature.permissions.map((p) => p.key);
+                  const enabledCount = catKeys.filter((k) => effectivePermissions.includes(k)).length;
                   const allEnabled = enabledCount === catKeys.length;
                   const isSuperAdmin = selectedRole.slug === "super_admin";
+                  const FeatureIcon = getIcon(feature.icon);
 
                   return (
-                    <div key={category.name} className="space-y-3">
+                    <div key={feature.id} className="space-y-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <h3 className="text-sm font-semibold text-foreground">
-                            {category.name}
-                          </h3>
-                          <span className="text-xs text-muted-foreground">
-                            {enabledCount}/{catKeys.length}
-                          </span>
+                          <FeatureIcon className="w-4 h-4 text-muted-foreground" />
+                          <h3 className="text-sm font-semibold text-foreground">{feature.name}</h3>
+                          <span className="text-xs text-muted-foreground">{enabledCount}/{catKeys.length}</span>
                         </div>
                         <button
-                          onClick={() => toggleCategory(category)}
+                          onClick={() => toggleCategory(feature.id)}
                           disabled={isSuperAdmin}
                           className={cn(
                             "text-xs font-medium transition-colors",
@@ -496,22 +385,17 @@ export function ConfigurationPage() {
                         </button>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {category.permissions.map((perm) => {
-                          const enabled = selectedRole.permissions.includes(perm.key);
+                        {feature.permissions.map((perm) => {
+                          const enabled = effectivePermissions.includes(perm.key);
                           return (
                             <div
                               key={perm.key}
                               className={cn(
                                 "flex items-center justify-between p-3 rounded-lg border transition-colors",
-                                enabled
-                                  ? "bg-primary/5 border-primary/20"
-                                  : "bg-card border-border"
+                                enabled ? "bg-primary/5 border-primary/20" : "bg-card border-border"
                               )}
                             >
-                              <Label
-                                className="text-sm cursor-pointer"
-                                htmlFor={`perm-${perm.key}`}
-                              >
+                              <Label className="text-sm cursor-pointer" htmlFor={`perm-${perm.key}`}>
                                 {perm.label}
                               </Label>
                               <Switch
@@ -527,6 +411,11 @@ export function ConfigurationPage() {
                     </div>
                   );
                 })}
+                {features.length === 0 && (
+                  <p className="text-sm text-muted-foreground text-center py-8">
+                    No feature modules defined. Create features in the Features page to assign permissions here.
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>
