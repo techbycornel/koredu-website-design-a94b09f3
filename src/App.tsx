@@ -26,6 +26,7 @@ import { UserManagement } from "@/pages/admin/UserManagement";
 import { FinancialOverview } from "@/pages/admin/FinancialOverview";
 import { ConfigurationPage } from "@/pages/admin/ConfigurationPage";
 import { FeatureModulesPage } from "@/pages/admin/FeatureModulesPage";
+import { SubscriptionPlansPage } from "@/pages/admin/SubscriptionPlansPage";
 import { FeaturesProvider } from "@/contexts/FeaturesContext";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const App = () => (
             <Route path="/admin/configuration" element={<Navigate to="/admin/configuration/roles" replace />} />
             <Route path="/admin/configuration/roles" element={<DashboardLayout><ConfigurationPage /></DashboardLayout>} />
             <Route path="/admin/configuration/features" element={<DashboardLayout><FeatureModulesPage /></DashboardLayout>} />
+            <Route path="/admin/configuration/plans" element={<DashboardLayout><SubscriptionPlansPage /></DashboardLayout>} />
 
             {/* Catch-all */}
             <Route path="*" element={<Layout><NotFound /></Layout>} />
