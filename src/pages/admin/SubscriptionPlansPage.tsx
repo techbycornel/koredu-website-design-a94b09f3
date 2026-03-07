@@ -212,6 +212,13 @@ export function SubscriptionPlansPage() {
     setFormSms(plan.limits.sms?.toString() || "");
     setFormCbt(plan.limits.cbt?.toString() || "");
     setFormStorage(plan.limits.storage);
+    // Merge existing plan features with context features
+    const contextFeatures = buildFeaturesFromContext();
+    const merged = contextFeatures.map((cf) => {
+      const existing = plan.features.find((pf) => pf.id === cf.id);
+      return existing ? { ...cf, included: existing.included, limit: existing.limit } : cf;
+    });
+    setFormFeatures(merged);
     setDialogOpen(true);
   };
 
