@@ -153,6 +153,7 @@ const initialPlans: SubscriptionPlan[] = [
 
 // ─── Component ────────────────────────────────────────────────
 export function SubscriptionPlansPage() {
+  const { features } = useFeatures();
   const [plans, setPlans] = useState<SubscriptionPlan[]>(initialPlans);
   const [searchQuery, setSearchQuery] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -168,6 +169,7 @@ export function SubscriptionPlansPage() {
   const [formSms, setFormSms] = useState("");
   const [formCbt, setFormCbt] = useState("");
   const [formStorage, setFormStorage] = useState("");
+  const [formFeatures, setFormFeatures] = useState<PlanFeature[]>([]);
 
   const filteredPlans = plans.filter(
     (p) =>
