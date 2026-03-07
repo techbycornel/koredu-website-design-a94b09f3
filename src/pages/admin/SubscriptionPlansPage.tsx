@@ -368,6 +368,31 @@ export function SubscriptionPlansPage() {
                   </div>
                 </div>
               </div>
+              {/* Included Features */}
+              <div className="pt-2 border-t border-border">
+                <p className="text-sm font-semibold text-foreground mb-3">Included Features</p>
+                {formFeatures.length === 0 ? (
+                  <p className="text-xs text-muted-foreground">No feature modules defined yet. Create them under Configuration → Features.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {formFeatures.map((feat) => (
+                      <div key={feat.id} className="flex items-center gap-3">
+                        <Checkbox
+                          checked={feat.included}
+                          onCheckedChange={() => toggleFormFeature(feat.id)}
+                        />
+                        <span className="text-sm text-foreground flex-1">{feat.label}</span>
+                        <Input
+                          placeholder="Limit (optional)"
+                          className="h-8 w-32 text-xs"
+                          value={feat.limit || ""}
+                          onChange={(e) => updateFeatureLimit(feat.id, e.target.value)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => { setDialogOpen(false); resetForm(); }}>Cancel</Button>
