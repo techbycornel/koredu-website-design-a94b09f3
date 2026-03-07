@@ -235,6 +235,7 @@ export function SubscriptionPlansPage() {
                 description: formDesc.trim(),
                 monthlyPrice: parseInt(formMonthly) || 0,
                 annualPrice: parseInt(formAnnual) || 0,
+                features: formFeatures,
                 limits: {
                   students: formStudents ? parseInt(formStudents) : null,
                   sms: formSms ? parseInt(formSms) : null,
@@ -258,11 +259,7 @@ export function SubscriptionPlansPage() {
         isPopular: false,
         isActive: true,
         subscriberCount: 0,
-        features: [
-          { id: "f1", label: "Student management", included: true },
-          { id: "f2", label: "Basic reporting", included: true },
-          { id: "f3", label: "Parent portal", included: true },
-        ],
+        features: formFeatures,
         limits: {
           students: formStudents ? parseInt(formStudents) : null,
           sms: formSms ? parseInt(formSms) : null,
@@ -275,6 +272,18 @@ export function SubscriptionPlansPage() {
 
     setDialogOpen(false);
     resetForm();
+  };
+
+  const toggleFormFeature = (featureId: string) => {
+    setFormFeatures((prev) =>
+      prev.map((f) => (f.id === featureId ? { ...f, included: !f.included } : f))
+    );
+  };
+
+  const updateFeatureLimit = (featureId: string, limit: string) => {
+    setFormFeatures((prev) =>
+      prev.map((f) => (f.id === featureId ? { ...f, limit: limit || undefined } : f))
+    );
   };
 
   const togglePlanActive = (planId: string) => {
