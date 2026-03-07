@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -35,6 +36,7 @@ import {
   GripVertical,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useFeatures } from "@/contexts/FeaturesContext";
 
 // ─── Types ────────────────────────────────────────────────────
 interface PlanFeature {
