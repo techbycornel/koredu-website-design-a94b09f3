@@ -316,7 +316,7 @@ export function SubscriptionPlansPage() {
         </div>
         <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) resetForm(); }}>
           <DialogTrigger asChild>
-            <Button>
+            <Button onClick={() => setFormFeatures(buildFeaturesFromContext())}>
               <Plus className="w-4 h-4" />
               Add Plan
             </Button>
