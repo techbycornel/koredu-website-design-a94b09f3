@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Puzzle,
   Shield,
+  Crown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
@@ -28,6 +29,7 @@ const mainNav = [
 const configSubNav = [
   { title: "Roles & Permissions", href: "/admin/configuration/roles", icon: ShieldCheck },
   { title: "Features", href: "/admin/configuration/features", icon: Puzzle },
+  { title: "Subscription Plans", href: "/admin/configuration/plans", icon: Crown },
 ];
 
 const bottomNav = [
