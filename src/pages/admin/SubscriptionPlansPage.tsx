@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -35,6 +36,7 @@ import {
   GripVertical,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useFeatures } from "@/contexts/FeaturesContext";
 
 // ─── Types ────────────────────────────────────────────────────
 interface PlanFeature {
@@ -151,6 +153,7 @@ const initialPlans: SubscriptionPlan[] = [
 
 // ─── Component ────────────────────────────────────────────────
 export function SubscriptionPlansPage() {
+  const { features } = useFeatures();
   const [plans, setPlans] = useState<SubscriptionPlan[]>(initialPlans);
   const [searchQuery, setSearchQuery] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -166,6 +169,7 @@ export function SubscriptionPlansPage() {
   const [formSms, setFormSms] = useState("");
   const [formCbt, setFormCbt] = useState("");
   const [formStorage, setFormStorage] = useState("");
+  const [formFeatures, setFormFeatures] = useState<PlanFeature[]>([]);
 
   const filteredPlans = plans.filter(
     (p) =>
@@ -185,7 +189,17 @@ export function SubscriptionPlansPage() {
     setFormSms("");
     setFormCbt("");
     setFormStorage("");
+    setFormFeatures([]);
     setEditingPlan(null);
+  };
+
+  const buildFeaturesFromContext = () => {
+    return features.map((f) => ({
+      id: f.id,
+      label: f.name,
+      included: false,
+      limit: undefined as string | undefined,
+    }));
   };
 
   const openEditDialog = (plan: SubscriptionPlan) => {
@@ -198,6 +212,13 @@ export function SubscriptionPlansPage() {
     setFormSms(plan.limits.sms?.toString() || "");
     setFormCbt(plan.limits.cbt?.toString() || "");
     setFormStorage(plan.limits.storage);
+    // Merge existing plan features with context features
+    const contextFeatures = buildFeaturesFromContext();
+    const merged = contextFeatures.map((cf) => {
+      const existing = plan.features.find((pf) => pf.id === cf.id);
+      return existing ? { ...cf, included: existing.included, limit: existing.limit } : cf;
+    });
+    setFormFeatures(merged);
     setDialogOpen(true);
   };
 
@@ -214,6 +235,7 @@ export function SubscriptionPlansPage() {
                 description: formDesc.trim(),
                 monthlyPrice: parseInt(formMonthly) || 0,
                 annualPrice: parseInt(formAnnual) || 0,
+                features: formFeatures,
                 limits: {
                   students: formStudents ? parseInt(formStudents) : null,
                   sms: formSms ? parseInt(formSms) : null,
@@ -237,11 +259,7 @@ export function SubscriptionPlansPage() {
         isPopular: false,
         isActive: true,
         subscriberCount: 0,
-        features: [
-          { id: "f1", label: "Student management", included: true },
-          { id: "f2", label: "Basic reporting", included: true },
-          { id: "f3", label: "Parent portal", included: true },
-        ],
+        features: formFeatures,
         limits: {
           students: formStudents ? parseInt(formStudents) : null,
           sms: formSms ? parseInt(formSms) : null,
@@ -254,6 +272,18 @@ export function SubscriptionPlansPage() {
 
     setDialogOpen(false);
     resetForm();
+  };
+
+  const toggleFormFeature = (featureId: string) => {
+    setFormFeatures((prev) =>
+      prev.map((f) => (f.id === featureId ? { ...f, included: !f.included } : f))
+    );
+  };
+
+  const updateFeatureLimit = (featureId: string, limit: string) => {
+    setFormFeatures((prev) =>
+      prev.map((f) => (f.id === featureId ? { ...f, limit: limit || undefined } : f))
+    );
   };
 
   const togglePlanActive = (planId: string) => {
@@ -286,7 +316,7 @@ export function SubscriptionPlansPage() {
         </div>
         <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) resetForm(); }}>
           <DialogTrigger asChild>
-            <Button>
+            <Button onClick={() => setFormFeatures(buildFeaturesFromContext())}>
               <Plus className="w-4 h-4" />
               Add Plan
             </Button>
@@ -337,6 +367,31 @@ export function SubscriptionPlansPage() {
                     <Input placeholder="e.g. 25 GB" value={formStorage} onChange={(e) => setFormStorage(e.target.value)} />
                   </div>
                 </div>
+              </div>
+              {/* Included Features */}
+              <div className="pt-2 border-t border-border">
+                <p className="text-sm font-semibold text-foreground mb-3">Included Features</p>
+                {formFeatures.length === 0 ? (
+                  <p className="text-xs text-muted-foreground">No feature modules defined yet. Create them under Configuration → Features.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {formFeatures.map((feat) => (
+                      <div key={feat.id} className="flex items-center gap-3">
+                        <Checkbox
+                          checked={feat.included}
+                          onCheckedChange={() => toggleFormFeature(feat.id)}
+                        />
+                        <span className="text-sm text-foreground flex-1">{feat.label}</span>
+                        <Input
+                          placeholder="Limit (optional)"
+                          className="h-8 w-32 text-xs"
+                          value={feat.limit || ""}
+                          onChange={(e) => updateFeatureLimit(feat.id, e.target.value)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             <DialogFooter>
