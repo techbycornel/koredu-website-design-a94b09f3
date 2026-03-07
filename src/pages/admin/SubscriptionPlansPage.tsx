@@ -189,7 +189,17 @@ export function SubscriptionPlansPage() {
     setFormSms("");
     setFormCbt("");
     setFormStorage("");
+    setFormFeatures([]);
     setEditingPlan(null);
+  };
+
+  const buildFeaturesFromContext = () => {
+    return features.map((f) => ({
+      id: f.id,
+      label: f.name,
+      included: false,
+      limit: undefined as string | undefined,
+    }));
   };
 
   const openEditDialog = (plan: SubscriptionPlan) => {
